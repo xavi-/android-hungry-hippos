@@ -117,6 +117,13 @@
 				body.ApplyImpulse(vec, body.GetWorldCenter());
 				return true;
 			}, throwBox);
+
+			var body = world.GetBodyList();
+			while(body) {
+				var vec = new b2Vec2(6 * Math.random() - 3, 6 * Math.random() - 3);
+				body.ApplyImpulse(vec, body.GetWorldCenter());
+				body = body.GetNext();
+			}
 		}
 	</script>
 </html>
