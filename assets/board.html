@@ -1,11 +1,14 @@
 <html>
    <head>
       <title>Box2dWeb Demo</title>
+      <style>
+         button { display: block; width: 100%; }
+      </style>
    </head>
    <body onload="init();">
-      <div>dist: <span id="dist"></span></div>
+      <button onclick="bite()">Bite it</button>
       <canvas id="canvas" width="600" height="400" style="background-color:#333333;" ></canvas>
-      <a href="javascript:void(0)" onclick="bite()">bite</a>
+      <button onclick="bite()">Bite it2</button>
    </body>
    <script type="text/javascript" src="Box2dWeb-2.1.a.3.min.js"></script>
    <script type="text/javascript">
