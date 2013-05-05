@@ -1,13 +1,15 @@
 package com.whoyou.hungryhippos;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
+import android.webkit.WebView;
 
 public class GameBoardActivity extends Activity {
 
-	@Override
+	@SuppressLint("SetJavaScriptEnabled") @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
@@ -16,6 +18,10 @@ public class GameBoardActivity extends Activity {
 			WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
 		setContentView(R.layout.activity_game_board);
+
+		WebView board = (WebView)findViewById(R.id.game_board_renderer);
+		board.getSettings().setJavaScriptEnabled(true);
+		board.loadUrl("file:///android_asset/board.html");
 	}
 
 }
