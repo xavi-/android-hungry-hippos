@@ -119,15 +119,18 @@
 			world.QueryAABB(function(fixture) {
 				var vec = new b2Vec2(30 * Math.random() - 15, 30 * Math.random() - 15);
 				var body = fixture.GetBody();
+
+				if(body.GetType() !== b2Body.b2_dynamicBody) { return true; }
+
 				body.ApplyImpulse(vec, body.GetWorldCenter());
 				return true;
 			}, throwBox);
 
-			var body = world.GetBodyList();
-			while(body) {
+			for(var body = world.GetBodyList(); body; body = body.GetNext()) {
+				if(body.GetType() !== b2Body.b2_dynamicBody) { continue; }
+
 				var vec = new b2Vec2(6 * Math.random() - 3, 6 * Math.random() - 3);
 				body.ApplyImpulse(vec, body.GetWorldCenter());
-				body = body.GetNext();
 			}
 		}
 	</script>
