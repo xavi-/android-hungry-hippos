@@ -195,7 +195,7 @@
 			.bind("touchstart mousedown", function() {
 				showHippo("a", WIDTH_UNIT / 2, 4);
 			})
-			.bind("touchend mouseup", function() {
+			.bind("touchend touchcancel mouseup", function() {
 				updateScore("a", bite(WIDTH_UNIT / 2, 4));
 				hideHippo("a");
 				createMarbles(1);
@@ -205,7 +205,7 @@
 			.bind("touchstart mousedown", function() {
 				showHippo("b", WIDTH_UNIT / 2, HEIGHT_UNIT - 4);
 			})
-			.bind("touchend mouseup", function() {
+			.bind("touchend touchcancel mouseup", function() {
 				updateScore("b", bite(WIDTH_UNIT / 2, HEIGHT_UNIT - 4));
 				hideHippo("b");
 				createMarbles(1);
