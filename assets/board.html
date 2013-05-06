@@ -10,13 +10,13 @@
 		</style>
 	</head>
 	<body onload="init();">
-		<button id="player-a">Bite it</button>
+		<button id="player-a">Bite it -- score: <span class="score">0</span></button>
 		<div class="board-container">
 			<canvas id="canvas" style="background-color:#333333;" ></canvas>
 			<img id="hippo-a" src="hippo.png"/>
 			<img id="hippo-b" src="hippo.png"/>
 		</div>
-		<button id="player-b">Bite it2</button>
+		<button id="player-b">Bite it2 -- score: <span class="score">0</span></button>
 	</body>
 	<script type="text/javascript" src="Box2dWeb-2.1.a.3.min.js"></script>
 	<script type="text/javascript" src="jquery-2.0.0.js"></script>
@@ -127,7 +127,9 @@
 			var delBox = new b2AABB();
 			delBox.lowerBound.Set(x - 1, y - 1);
 			delBox.upperBound.Set(x + 1, y + 1);
+			var eaten = 0;
 			world.QueryAABB(function(fixture) {
+				eaten += 1;
 				world.DestroyBody(fixture.GetBody());
 				return true;
 			}, delBox);
@@ -151,7 +153,18 @@
 				var vec = new b2Vec2(6 * Math.random() - 3, 6 * Math.random() - 3);
 				body.ApplyImpulse(vec, body.GetWorldCenter());
 			}
+
+			return eaten;
 		}
+
+		var updateScore = (function() {
+			var scores = { a: 0, b: 0 };
+
+			return function(id, eaten) {
+				scores[id] += eaten;
+				$("#player-" + id + " .score").text(scores[id]);
+			};
+		})();
 
 		function showHippo(hippoId, x, y) {
 			$("#hippo-" + hippoId)
@@ -174,7 +187,7 @@
 				showHippo("a", WIDTH_UNIT / 2, 4);
 			})
 			.bind("touchend mouseup", function() {
-				bite(WIDTH_UNIT / 2, 4);
+				updateScore("a", bite(WIDTH_UNIT / 2, 4));
 				hideHippo("a");
 				createMarbles(1);
 			})
@@ -184,7 +197,7 @@
 				showHippo("b", WIDTH_UNIT / 2, HEIGHT_UNIT - 4);
 			})
 			.bind("touchend mouseup", function() {
-				bite(WIDTH_UNIT / 2, HEIGHT_UNIT - 4);
+				updateScore("b", bite(WIDTH_UNIT / 2, HEIGHT_UNIT - 4));
 				hideHippo("b");
 				createMarbles(1);
 			})
