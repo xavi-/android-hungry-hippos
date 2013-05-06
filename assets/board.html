@@ -7,9 +7,9 @@
 		</style>
 	</head>
 	<body onload="init();">
-		<button onclick="bite()">Bite it</button>
+		<button id="player-a">Bite it</button>
 		<canvas id="canvas" style="background-color:#333333;" ></canvas>
-		<button onclick="bite()">Bite it2</button>
+		<button id="player-b">Bite it2</button>
 	</body>
 	<script type="text/javascript" src="Box2dWeb-2.1.a.3.min.js"></script>
 	<script type="text/javascript">
@@ -134,5 +134,14 @@
 				body.ApplyImpulse(vec, body.GetWorldCenter());
 			}
 		}
+
+		var buttonA = document.getElementById("player-a");
+		var buttonB = document.getElementById("player-b");
+		buttonA.addEventListener("touchend", function() {
+			bite();
+		}, false);
+		buttonB.addEventListener("touchend", function() {
+			bite();
+		}, false);
 	</script>
 </html>
