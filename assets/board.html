@@ -4,11 +4,18 @@
 		<style>
 			html, body { margin: 0; padding: 0; }
 			button { display: block; width: 100%; height: 45px; border: none; }
+			.board-container { position: relative; }
+			#hippo-a, #hippo-b { display: none; position: absolute; }
+			#hippo-a { -webkit-transform: rotate(180deg); -moz-transform: rotate(180deg); transform: rotate(180deg); }
 		</style>
 	</head>
 	<body onload="init();">
 		<button id="player-a">Bite it</button>
-		<canvas id="canvas" style="background-color:#333333;" ></canvas>
+		<div class="board-container">
+			<canvas id="canvas" style="background-color:#333333;" ></canvas>
+			<img id="hippo-a" src="hippo.png"/>
+			<img id="hippo-b" src="hippo.png"/>
+		</div>
 		<button id="player-b">Bite it2</button>
 	</body>
 	<script type="text/javascript" src="Box2dWeb-2.1.a.3.min.js"></script>
@@ -137,11 +144,39 @@
 			}
 		}
 
-		$("#player-a").bind("touchend mouseup", function() {
-			bite(WIDTH_UNIT / 2, 4);
-		});
-		$("#player-b").bind("touchend mouseup", function() {
-			bite(WIDTH_UNIT / 2, HEIGHT_UNIT - 4);
-		});
+		function showHippo(hippoId, x, y) {
+			$("#hippo-" + hippoId)
+				.css({
+					left: DRAW_SCALE * (x - 2),
+					top: DRAW_SCALE * (y - 2),
+					width: DRAW_SCALE * 4,
+					height: DRAW_SCALE * 4
+				})
+				.show()
+			;
+		}
+		function hideHippo(hippoId) {
+			$("#hippo-" + hippoId).hide();
+		}
+
+		$("#hippo-a, #hippo-b").width(3 * DRAW_SCALE).height(3 * DRAW_SCALE);
+		$("#player-a")
+			.bind("touchstart mousedown", function() {
+				showHippo("a", WIDTH_UNIT / 2, 4);
+			})
+			.bind("touchend mouseup", function() {
+				bite(WIDTH_UNIT / 2, 4);
+				hideHippo("a");
+			})
+		;
+		$("#player-b")
+			.bind("touchstart mousedown", function() {
+				showHippo("b", WIDTH_UNIT / 2, HEIGHT_UNIT - 4);
+			})
+			.bind("touchend mouseup", function() {
+				bite(WIDTH_UNIT / 2, HEIGHT_UNIT - 4);
+				hideHippo("b");
+			})
+		;
 	</script>
 </html>
