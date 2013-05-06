@@ -106,18 +106,18 @@
 				world.DrawDebugData();
 			}
 		};
-		function bite() {
+		function bite(x, y) {
 			var delBox = new b2AABB();
-			delBox.lowerBound.Set(WIDTH_UNIT / 2 - 2, HEIGHT_UNIT / 2 - 2);
-			delBox.upperBound.Set(WIDTH_UNIT / 2 + 2, HEIGHT_UNIT / 2 + 2);
+			delBox.lowerBound.Set(x - 1, y - 1);
+			delBox.upperBound.Set(x + 1, y + 1);
 			world.QueryAABB(function(fixture) {
 				world.DestroyBody(fixture.GetBody());
 				return true;
 			}, delBox);
 
 			var throwBox = new b2AABB();
-			throwBox.lowerBound.Set(WIDTH_UNIT / 2 - 3, HEIGHT_UNIT / 2 - 3);
-			throwBox.upperBound.Set(WIDTH_UNIT / 2 + 3, HEIGHT_UNIT / 2 + 3);
+			throwBox.lowerBound.Set(x - 2, y - 2);
+			throwBox.upperBound.Set(x + 2, y + 2);
 			world.QueryAABB(function(fixture) {
 				var vec = new b2Vec2(30 * Math.random() - 15, 30 * Math.random() - 15);
 				var body = fixture.GetBody();
@@ -137,10 +137,10 @@
 		}
 
 		$("#player-a").bind("touchend click", function() {
-			bite();
+			bite(WIDTH_UNIT / 2, 4);
 		});
 		$("#player-b").bind("touchend click", function() {
-			bite();
+			bite(WIDTH_UNIT / 2, HEIGHT_UNIT - 4);
 		});
 	</script>
 </html>
