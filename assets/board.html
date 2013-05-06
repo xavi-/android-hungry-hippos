@@ -176,6 +176,7 @@
 			.bind("touchend mouseup", function() {
 				bite(WIDTH_UNIT / 2, 4);
 				hideHippo("a");
+				createMarbles(1);
 			})
 		;
 		$("#player-b")
@@ -185,6 +186,7 @@
 			.bind("touchend mouseup", function() {
 				bite(WIDTH_UNIT / 2, HEIGHT_UNIT - 4);
 				hideHippo("b");
+				createMarbles(1);
 			})
 		;
 	</script>
