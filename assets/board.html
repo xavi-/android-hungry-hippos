@@ -73,10 +73,10 @@
 			}
 
 			//setup debug draw
-			var canvas = document.getElementById("canvas");
+			var canvas = $("#canvas")[0];
 			canvas.width = WIDTH_PX; canvas.height = HEIGHT_PX;
 			var debugDraw = new b2DebugDraw();
-			debugDraw.SetSprite(document.getElementById("canvas").getContext("2d"));
+			debugDraw.SetSprite(canvas.getContext("2d"));
 			debugDraw.SetDrawScale(DRAW_SCALE);
 			debugDraw.SetFillAlpha(0.5);
 			debugDraw.SetLineThickness(1.0);
@@ -136,13 +136,11 @@
 			}
 		}
 
-		var buttonA = document.getElementById("player-a");
-		var buttonB = document.getElementById("player-b");
-		buttonA.addEventListener("touchend", function() {
+		$("#player-a").bind("touchend click", function() {
 			bite();
-		}, false);
-		buttonB.addEventListener("touchend", function() {
+		});
+		$("#player-b").bind("touchend click", function() {
 			bite();
-		}, false);
+		});
 	</script>
 </html>
