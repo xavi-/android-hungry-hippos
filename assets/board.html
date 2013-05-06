@@ -12,10 +12,11 @@
 		<button id="player-b">Bite it2</button>
 	</body>
 	<script type="text/javascript" src="Box2dWeb-2.1.a.3.min.js"></script>
+	<script type="text/javascript" src="jquery-2.0.0.js"></script>
 	<script type="text/javascript">
 		var DRAW_SCALE = 30;
-		var HEIGHT_PX = 550, WIDTH_PX = 360;
-		var HEIGHT_UNIT = HEIGHT_PX / DRAW_SCALE, WIDTH_UNIT = WIDTH_PX / DRAW_SCALE;
+		var WIDTH_PX = $(window).width(), HEIGHT_PX = $(window).height() - $("button").outerHeight() * 2;
+		var WIDTH_UNIT = WIDTH_PX / DRAW_SCALE, HEIGHT_UNIT = HEIGHT_PX / DRAW_SCALE;
 
 		var	b2Vec2 = Box2D.Common.Math.b2Vec2
 		,	b2AABB = Box2D.Collision.b2AABB
