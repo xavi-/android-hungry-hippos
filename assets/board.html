@@ -67,16 +67,13 @@
 			world.CreateBody(bodyDef).CreateFixture(fixDef);
 
 
-			var marbles = [];
 			//create some objects
 			bodyDef.type = b2Body.b2_dynamicBody;
 			for(var i = 0; i < 75; ++i) {
 				fixDef.shape = new b2CircleShape(0.5);
 				bodyDef.position.x = WIDTH_UNIT * Math.random();
 				bodyDef.position.y = HEIGHT_UNIT * Math.random();
-				var marble = world.CreateBody(bodyDef);
-				marbles.push(marble);
-				marble.CreateFixture(fixDef);
+				world.CreateBody(bodyDef).CreateFixture(fixDef);
 			}
 
 			//setup debug draw
@@ -99,8 +96,9 @@
 				world.Step(1 / 60, 10, 10);
 				world.ClearForces();
 
-				for(var i = 0; i < marbles.length; i++) {
-					var marble = marbles[i];
+				for(var marble = world.GetBodyList(); marble; marble = marble.GetNext()) {
+					if(marble.GetType() !== b2Body.b2_dynamicBody) { continue; }
+
 					var distVec = new b2Vec2(0, 0);
 					distVec.Add(marble.GetWorldCenter());
 					distVec.Subtract(centerVec);
