@@ -192,8 +192,9 @@
 
 		$("#hippo-a, #hippo-b").width(3 * DRAW_SCALE).height(3 * DRAW_SCALE);
 		$("#player-a")
-			.bind("touchstart mousedown", function() {
+			.bind("touchstart mousedown", function(e) {
 				showHippo("a", WIDTH_UNIT / 2, 4);
+				e.preventDefault();
 			})
 			.bind("touchend touchcancel mouseup", function() {
 				updateScore("a", bite(WIDTH_UNIT / 2, 4));
@@ -202,8 +203,9 @@
 			})
 		;
 		$("#player-b")
-			.bind("touchstart mousedown", function() {
+			.bind("touchstart mousedown", function(e) {
 				showHippo("b", WIDTH_UNIT / 2, HEIGHT_UNIT - 4);
+				e.preventDefault();
 			})
 			.bind("touchend touchcancel mouseup", function() {
 				updateScore("b", bite(WIDTH_UNIT / 2, HEIGHT_UNIT - 4));
