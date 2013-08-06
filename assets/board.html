@@ -3,35 +3,23 @@
 		<title>Box2dWeb Demo</title>
 		<style>
 			html, body { margin: 0; padding: 0; }
-			button {
-				display: block;
-				width: 100%;
-				height: 45px;
-				border: none;
-				-moz-user-select: none;
-				-webkit-user-select: none;
-				user-select: none;
-			}
 			.board-container { position: relative; }
 			#hippo-a, #hippo-b { display: none; position: absolute; }
-			#player-a,
 			#hippo-a { -webkit-transform: rotate(180deg); -moz-transform: rotate(180deg); transform: rotate(180deg); }
 		</style>
 	</head>
 	<body onload="init();">
-		<button id="player-a">Bite it -- score: <span class="score">0</span></button>
 		<div class="board-container">
 			<canvas id="canvas" style="background-color:#333333;" ></canvas>
 			<img id="hippo-a" src="hippo.png"/>
 			<img id="hippo-b" src="hippo.png"/>
 		</div>
-		<button id="player-b">Bite it2 -- score: <span class="score">0</span></button>
 	</body>
 	<script type="text/javascript" src="Box2dWeb-2.1.a.3.min.js"></script>
 	<script type="text/javascript" src="jquery-2.0.0.js"></script>
 	<script type="text/javascript">
 		var DRAW_SCALE = 30;
-		var WIDTH_PX = $(window).width(), HEIGHT_PX = $(window).height() - $("button").outerHeight() * 2;
+		var WIDTH_PX = $(window).width(), HEIGHT_PX = $(window).height();
 		var WIDTH_UNIT = WIDTH_PX / DRAW_SCALE, HEIGHT_UNIT = HEIGHT_PX / DRAW_SCALE;
 
 		var	b2Vec2 = Box2D.Common.Math.b2Vec2
@@ -190,26 +178,46 @@
 			$("#hippo-" + hippoId).hide();
 		}
 
+		function normalizeTouches(e) {
+			if(e.originalEvent.touches && e.originalEvent.touches.length) {
+			    return e.originalEvent.touches;
+			} else if(e.originalEvent.changedTouches && e.originalEvent.changedTouches.length) {
+			    return e.originalEvent.changedTouches;
+			} else {
+				return [ e ];
+			}
+		}
+
+		function pixelToUnit(x, y) {
+			return { x: x / DRAW_SCALE, y: y / DRAW_SCALE };
+		}
+
 		$("#hippo-a, #hippo-b").width(3 * DRAW_SCALE).height(3 * DRAW_SCALE);
-		$("#player-a")
+		$(".board-container")
 			.bind("touchstart mousedown", function(e) {
-				showHippo("a", WIDTH_UNIT / 2, 4);
 				e.preventDefault();
+
+				var touches = normalizeTouches(e);
+				var touchA, touchB;
+				for(var i = 0; i < touches.length; i++) {
+					var units = pixelToUnit(e.pageX, e.pageY);
+
+					if(units.y < HEIGHT_UNIT / 2) { touchA = units; }
+					if(units.y > HEIGHT_UNIT / 2) { touchB = units; }
+				}
+
+				if(touchA) { showHippo("a", touchA.x, touchA.y); }
+				if(touchB) { showHippo("b", touchB.x, touchB.y); }
+
+				$(this).data("touches", { touchA: touchA, touchB: touchB });
 			})
 			.bind("touchend touchcancel mouseup", function() {
-				updateScore("a", bite(WIDTH_UNIT / 2, 4));
-				hideHippo("a");
-				createMarbles(1);
-			})
-		;
-		$("#player-b")
-			.bind("touchstart mousedown", function(e) {
-				showHippo("b", WIDTH_UNIT / 2, HEIGHT_UNIT - 4);
-				e.preventDefault();
-			})
-			.bind("touchend touchcancel mouseup", function() {
-				updateScore("b", bite(WIDTH_UNIT / 2, HEIGHT_UNIT - 4));
-				hideHippo("b");
+				var touches = $(this).data("touches");
+				var touchA = touches.touchA, touchB = touches.touchB;
+
+				if(touchA) { updateScore("a", bite(touchA.x, touchA.y)); hideHippo("a"); }
+				if(touchB) { updateScore("b", bite(touchB.x, touchB.y)); hideHippo("b"); }
+
 				createMarbles(1);
 			})
 		;
