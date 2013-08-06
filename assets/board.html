@@ -212,7 +212,7 @@
 				var touches = normalizeTouches(e);
 				var touchA, touchB;
 				for(var i = 0; i < touches.length; i++) {
-					var units = pixelToUnit(e.pageX, e.pageY);
+					var units = pixelToUnit(touches[i].pageX, touches[i].pageY);
 
 					if(units.y < HEIGHT_UNIT / 2) { touchA = units; }
 					if(units.y > HEIGHT_UNIT / 2) { touchB = units; }
