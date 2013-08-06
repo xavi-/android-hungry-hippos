@@ -121,6 +121,11 @@
 		};
 
 		function bite(x, y) {
+			if(x - 2 < 0) { x = 2.1; }
+			if(x + 2 > WIDTH_UNIT) { x = WIDTH_UNIT - 2.1; }
+			if(y - 2 < 0) { y = 2.1; }
+			if(y + 2 > HEIGHT_UNIT) { y = HEIGHT_UNIT - 2.1; }
+
 			var delBox = new b2AABB();
 			delBox.lowerBound.Set(x - 1, y - 1);
 			delBox.upperBound.Set(x + 1, y + 1);
@@ -164,6 +169,11 @@
 		})();
 
 		function showHippo(hippoId, x, y) {
+			if(x - 2 < 0) { x = 2.1; }
+			if(x + 2 > WIDTH_UNIT) { x = WIDTH_UNIT - 2.1; }
+			if(y - 2 < 0) { y = 2.1; }
+			if(y + 2 > HEIGHT_UNIT) { y = HEIGHT_UNIT - 2.1; }
+
 			$("#hippo-" + hippoId)
 				.css({
 					left: DRAW_SCALE * (x - 2),
