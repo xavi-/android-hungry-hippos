@@ -227,8 +227,11 @@
 				var touches = $(this).data("touches");
 				var touchA = touches.touchA, touchB = touches.touchB;
 
-				if(touchA) { updateScore("a", bite(touchA.x, touchA.y)); hideHippo("a"); }
-				if(touchB) { updateScore("b", bite(touchB.x, touchB.y)); hideHippo("b"); }
+				if(touchA) { updateScore("a", bite(touchA.x, touchA.y)); }
+				if(touchB) { updateScore("b", bite(touchB.x, touchB.y)); }
+
+				hideHippo("a");
+				hideHippo("b");
 
 				createMarbles(1);
 			})
