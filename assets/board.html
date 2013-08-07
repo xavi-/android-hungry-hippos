@@ -3,15 +3,22 @@
 		<title>Box2dWeb Demo</title>
 		<style>
 			html, body { margin: 0; padding: 0; }
-			.board-container { position: relative; }
-			.click-catcher { position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: 4; }
-			#hippo-a, #hippo-b { display: none; position: absolute; }
+			.board-container { position: relative; background-color: #333; height: 100%; }
+			#canvas { position: absolute; z-index: 2; }
+			.score-a, .score-b { position: absolute; left: 0; z-index: 1; width: 100%; font-size: 75px; font-weight: bold; text-align: center; color: #555; font-family: sans-serif; line-height: 50%; }
+			.score-a { top: 25%; }
+			.score-b { bottom: 25%; }
+			#hippo-a, #hippo-b { display: none; position: absolute; z-index: 3; }
+			.score-a,
 			#hippo-a { -webkit-transform: rotate(180deg); -moz-transform: rotate(180deg); transform: rotate(180deg); }
+			.click-catcher { position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: 4; }
 		</style>
 	</head>
 	<body onload="init();">
 		<div class="board-container">
-			<canvas id="canvas" style="background-color:#333333;" ></canvas>
+			<div class="score-a">0</div>
+			<div class="score-b">0</div>
+			<canvas id="canvas"></canvas>
 			<img id="hippo-a" src="hippo.png"/>
 			<img id="hippo-b" src="hippo.png"/>
 			<div class="click-catcher"></div>
@@ -166,7 +173,7 @@
 
 			return function(id, eaten) {
 				scores[id] += eaten;
-				$("#player-" + id + " .score").text(scores[id]);
+				$(".score-" + id).text(scores[id]);
 			};
 		})();
 
